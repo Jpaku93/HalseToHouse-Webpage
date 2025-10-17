@@ -38,7 +38,7 @@
     header { position: sticky; top:0; background: rgba(30,79,89,.8); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,.08); z-index:50; }
     header .inner { display:flex; align-items:center; justify-content:space-between; padding:.9rem 0; gap:1rem; }
     .logo { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; }
-    .logo-mark { width:36px; height:36px; border-radius:9px; background: linear-gradient(45deg, var(--teal-500), var(--lime)); display:grid; place-items:center; color: var(--ink); font-weight:900; }
+    .logo-mark { width:36px; height:36px; border-radius:9px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
     nav a { margin-left:1rem; color: var(--muted); font-weight:700; }
     nav a:hover { color:white; }
     .btn { display:inline-block; padding:.85rem 1.1rem; border-radius:12px; font-weight:800; border:1px solid transparent; }
@@ -119,7 +119,7 @@
   <header>
     <div class="container inner">
       <a href="#" class="logo" aria-label="Halse To House — Home">
-        <div class="logo-mark">H2H</div>
+        <div class="logo-mark"><img src="H2H Logo.png" alt="H2H Logo" style="width:100%; height:100%; object-fit:contain;" /></div>
         <div>
           <div style="font-weight:800;">Halse To House</div>
           <div style="font-size:.9rem; opacity:.9;">Pressure Washing</div>
@@ -171,7 +171,7 @@
         </div>
         <!-- Card 4 -->
         <div class="card">
-          <img loading="lazy" decoding="async" src="carwash/IMG-20251012-WA0037.jpg" alt="Professional car wash service with pressure washing and detailing" data-gallery="Car Wash" />
+          <img loading="lazy" decoding="async" src="carwash/IMG-20251012-WA0044.jpg" alt="Professional car wash service with pressure washing and detailing" data-gallery="Car Wash" />
           <h3>Car Wash</h3>
           <p class="muted">Professional car cleaning with pressure washing and detailing.</p>
         </div>
@@ -315,14 +315,8 @@
             'roofs/IMG-20251012-WA0036.jpg'
           ],
           'Car Wash': [
-            'carwash/IMG-20251012-WA0037.jpg',
-            'carwash/IMG-20251012-WA0038.jpg',
-            'carwash/IMG-20251012-WA0039.jpg',
-            'carwash/IMG-20251012-WA0040.jpg',
-            'carwash/IMG-20251012-WA0041.jpg',
-            'carwash/IMG-20251012-WA0042.jpg',
-            'carwash/IMG-20251012-WA0043.jpg',
-            'carwash/IMG-20251012-WA0044.jpg'
+            'carwash/IMG-20251012-WA0044.jpg',
+            'carwash/WhatsApp Image 2025-10-17 at 21.13.37_325cc28d.jpg'
           ]
         };
 
