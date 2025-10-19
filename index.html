@@ -303,6 +303,7 @@
     "offers": {"@type": "Offer", "name": "10% off with flyer", "priceCurrency": "AUD", "availability": "https://schema.org/InStock"}
   }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
   <header>
@@ -322,7 +323,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:1rem;">
         <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" id="mobileMenuToggle">☰</button>
-        <a href="tel:+61415288252" class="btn btn-primary" aria-label="Call Halse To House at 0415 288 252">Call 0415&nbsp;288&nbsp;252</a>
+      <a href="tel:+61415288252" class="btn btn-primary" aria-label="Call Halse To House at 0415 288 252">Call 0415&nbsp;288&nbsp;252</a>
       </div>
     </div>
     <div class="mobile-menu" id="mobileMenu">
@@ -400,6 +401,7 @@
         <!-- Quote Form -->
         <form id="quote-form" action="#" method="post" onsubmit="event.preventDefault(); submitQuote();">
           <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Email Address" required>
           <input type="text" name="address" placeholder="Property Address" required>
           <input type="tel" name="phone" placeholder="Phone Number" required>
           <input type="text" name="area-size" placeholder="Size of area to be cleaned (e.g., driveway 50sqm, patio 30sqm)" required>
@@ -604,12 +606,22 @@
       }
 
       
-      function submitQuote() {
+      // EmailJS configuration
+      const EMAILJS_SERVICE_ID = 'h2h_quoting_service';
+      const EMAILJS_TEMPLATE_ID = 'template_3fg2ex6';
+      const EMAILJS_PUBLIC_KEY = 'QGxAurAYT_oHqzLxU'; // You'll need to get this from EmailJS dashboard
+
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Make submitQuote globally accessible
+      window.submitQuote = async function() {
         const form = document.getElementById('quote-form');
         const formData = new FormData(form);
         
         const quoteData = {
           name: formData.get('name'),
+          email: formData.get('email'),
           address: formData.get('address'),
           phone: formData.get('phone'),
           areaSize: formData.get('area-size'),
@@ -617,10 +629,80 @@
           timestamp: new Date().toISOString()
         };
         
-        // Here you would typically send this to your backend
-        // For now, we'll show a success message
-        alert(`Thanks ${quoteData.name}! We'll be in touch shortly at ${quoteData.phone} to discuss your ${quoteData.areaSize} cleaning project.`);
-        form.reset();
+        // Get button reference and original text before try block
+        const submitBtn = document.querySelector('.quote-buttons .btn-primary');
+        const originalText = submitBtn ? submitBtn.textContent : 'Request Quote';
+        
+        try {
+          // Show loading state
+          submitBtn.textContent = 'Sending...';
+          submitBtn.disabled = true;
+          
+          // Send emails using EmailJS
+          await sendQuoteEmails(quoteData);
+          
+          // Success message
+          alert(`Thanks ${quoteData.name}! We've sent a confirmation to ${quoteData.email}. We'll be in touch shortly at ${quoteData.phone} to discuss your ${quoteData.areaSize} cleaning project.`);
+          form.reset();
+          
+        } catch (error) {
+          console.error('Error sending quote:', error);
+          alert('Sorry, there was an error sending your quote. Please try calling us directly at 0415 288 252.');
+        } finally {
+          // Reset button state
+          if (submitBtn) {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }
+        }
+      }
+      
+      window.sendQuoteEmails = async function(quoteData) {
+        // Send email with all quote data
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          customer_name: quoteData.name,
+          customer_email: quoteData.email,
+          customer_phone: quoteData.phone,
+          customer_address: quoteData.address,
+          service_area: quoteData.areaSize,
+          customer_message: quoteData.message,
+          submission_time: new Date(quoteData.timestamp).toLocaleString(),
+          business_email: 'jrlpaku@gmail.com',
+          business_phone: '0415 288 252',
+          reply_to: quoteData.email
+        });
+      }
+      
+      // Test function
+      window.testEmailSystem = async function() {
+        const testData = {
+          name: 'Test Customer',
+          email: 'j.r.paku@hotmail.com',
+          address: '123 Test Street, Test Suburb',
+          phone: '0412 345 678',
+          areaSize: 'Driveway 50sqm',
+          message: 'This is a test quote request to verify the email system is working correctly.',
+          timestamp: new Date().toISOString()
+        };
+        
+        try {
+          console.log('Sending test email...');
+          await sendQuoteEmails(testData);
+          console.log('Test email sent successfully!');
+          alert('Test email sent successfully! Check j.r.paku@hotmail.com and jrlpaku@gmail.com');
+        } catch (error) {
+          console.error('Test email failed:', error);
+          alert('Test email failed. Check console for details.');
+        }
+      }
+      
+      // Add test button (remove this after testing)
+      function addTestButton() {
+        const testBtn = document.createElement('button');
+        testBtn.textContent = 'Test Email System';
+        testBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 10px; border: none; border-radius: 5px; z-index: 9999;';
+        testBtn.onclick = testEmailSystem;
+        document.body.appendChild(testBtn);
       }
 
       // Mobile menu functionality
@@ -661,6 +743,7 @@
           initSmoothScroll();
           initGallery();
           initMobileMenu();
+          addTestButton(); // Add test button for email testing
         });
       } else {
         initScrollNavigation();
@@ -668,6 +751,7 @@
         initSmoothScroll();
         initGallery();
         initMobileMenu();
+        addTestButton(); // Add test button for email testing
       }
     })();
   </script>
