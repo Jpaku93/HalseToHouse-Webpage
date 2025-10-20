@@ -673,37 +673,6 @@
         });
       }
       
-      // Test function
-      window.testEmailSystem = async function() {
-        const testData = {
-          name: 'Test Customer',
-          email: 'j.r.paku@hotmail.com',
-          address: '123 Test Street, Test Suburb',
-          phone: '0412 345 678',
-          areaSize: 'Driveway 50sqm',
-          message: 'This is a test quote request to verify the email system is working correctly.',
-          timestamp: new Date().toISOString()
-        };
-        
-        try {
-          console.log('Sending test email...');
-          await sendQuoteEmails(testData);
-          console.log('Test email sent successfully!');
-          alert('Test email sent successfully! Check j.r.paku@hotmail.com and jrlpaku@gmail.com');
-        } catch (error) {
-          console.error('Test email failed:', error);
-          alert('Test email failed. Check console for details.');
-        }
-      }
-      
-      // Add test button (remove this after testing)
-      function addTestButton() {
-        const testBtn = document.createElement('button');
-        testBtn.textContent = 'Test Email System';
-        testBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 10px; border: none; border-radius: 5px; z-index: 9999;';
-        testBtn.onclick = testEmailSystem;
-        document.body.appendChild(testBtn);
-      }
 
       // Mobile menu functionality
       function initMobileMenu() {
@@ -743,7 +712,6 @@
           initSmoothScroll();
           initGallery();
           initMobileMenu();
-          addTestButton(); // Add test button for email testing
         });
       } else {
         initScrollNavigation();
@@ -751,7 +719,6 @@
         initSmoothScroll();
         initGallery();
         initMobileMenu();
-        addTestButton(); // Add test button for email testing
       }
     })();
   </script>
