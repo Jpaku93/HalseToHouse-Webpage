@@ -92,13 +92,25 @@
     .mobile-menu a { display: block; padding: 0.8rem 0; color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .mobile-menu a:last-child { border-bottom: none; }
     .mobile-menu a:hover { color: var(--accent); }
+    
+    /* Quote Success Modal */
+    .quote-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+    .quote-modal-content { background: var(--primary); margin: 10% auto; padding: 0; width: 90%; max-width: 500px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); animation: modalSlideIn 0.3s ease-out; }
+    .quote-modal-header { background: var(--highlight); color: var(--ink); padding: 1.5rem; border-radius: 16px 16px 0 0; text-align: center; }
+    .quote-modal-header h3 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    .quote-modal-body { padding: 2rem; color: var(--accent); text-align: center; }
+    .quote-modal-body p { margin: 1rem 0; line-height: 1.6; }
+    .quote-modal-footer { padding: 1rem 2rem 2rem; text-align: center; }
+    .quote-modal-close { background: var(--highlight); color: var(--ink); border: none; padding: 0.8rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .quote-modal-close:hover { background: var(--highlight-hover); transform: translateY(-1px); }
+    @keyframes modalSlideIn { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
     a { color: inherit; text-decoration: none; }
     .container { width: min(1100px, 92%); margin: 0 auto; }
     header { position: sticky; top:0; background: rgba(30,79,89,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index:50; transition: transform 0.3s ease; }
     header.hidden { transform: translateY(-100%); }
-    header .inner { display:flex; align-items:center; justify-content:space-between; padding:.9rem 0; gap:1rem; }
-    .logo { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; }
-    .logo-mark { height:100px; min-height:100px; aspect-ratio:1; border-radius:9px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    header .inner { display:flex; align-items:center; justify-content:space-between; padding:.5rem 0; gap:1rem; height:60px; }
+    .logo { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; height:100%; }
+    .logo-mark { height:80px; min-height:80px; aspect-ratio:1; border-radius:9px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
     nav a { margin-left:1rem; color: var(--text-secondary); font-weight:600; transition: color 0.2s ease; }
     nav a:hover { color: var(--accent); }
     .btn { display:inline-block; padding:.85rem 1.1rem; border-radius:8px; font-weight:600; border:1px solid transparent; transition: all 0.2s ease; text-align: center; }
@@ -150,10 +162,84 @@
     form .full { grid-column: 1 / -1; }
     form .comment-box { grid-column: 1 / -1; min-height: 150px; }
     .quote-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-    input, textarea { width:100%; padding:.9rem 1rem; border-radius:8px; border:1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--accent); font-weight:500; transition: all 0.2s ease; }
-    input:focus, textarea:focus { outline: none; border-color: var(--highlight); background: rgba(255,255,255,0.08); }
+    input, textarea, select { width:100%; padding:.9rem 1rem; border-radius:8px; border:1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--accent); font-weight:500; transition: all 0.2s ease; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--highlight); background: rgba(255,255,255,0.08); }
     input::placeholder, textarea::placeholder { color: var(--text-muted); }
     textarea { min-height:130px; resize:vertical; }
+    
+    /* Services Combo Box Styling */
+    .services-combobox { position: relative; width: 100%; }
+    .combobox-header { 
+      width: 100%; 
+      padding: .9rem 1rem; 
+      border-radius: 8px; 
+      border: 1px solid var(--border); 
+      background: rgba(255,255,255,0.05); 
+      color: var(--accent); 
+      font-weight: 500; 
+      cursor: pointer; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      transition: all 0.2s ease; 
+    }
+    .combobox-header:hover { border-color: var(--highlight); background: rgba(255,255,255,0.08); }
+    .combobox-arrow { transition: transform 0.2s ease; }
+    .combobox-header.active .combobox-arrow { transform: rotate(180deg); }
+    
+    .combobox-dropdown { 
+      position: absolute; 
+      top: 100%; 
+      left: 0; 
+      right: 0; 
+      background: var(--teal-900); 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      margin-top: 4px; 
+      max-height: 200px; 
+      overflow-y: auto; 
+      z-index: 1000; 
+      display: none; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+    }
+    .combobox-dropdown.show { display: block; }
+    
+    .service-option { 
+      display: flex; 
+      align-items: center; 
+      padding: 0.8rem 1rem; 
+      cursor: pointer; 
+      transition: background 0.2s ease; 
+      position: relative; 
+    }
+    .service-option:hover { background: rgba(255,255,255,0.05); }
+    
+    .service-option input[type="checkbox"] { 
+      position: absolute; 
+      opacity: 0; 
+      cursor: pointer; 
+    }
+    
+    .checkmark { 
+      width: 18px; 
+      height: 18px; 
+      border: 2px solid var(--border); 
+      border-radius: 4px; 
+      margin-right: 0.8rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: all 0.2s ease; 
+      background: transparent; 
+    }
+    
+    .service-option input[type="checkbox"]:checked + .checkmark { 
+      background: var(--highlight); 
+      border-color: var(--highlight); 
+      color: var(--ink); 
+    }
+    
+    .service-text { color: var(--accent); font-weight: 500; }
     footer { padding:2rem 0 3rem; text-align:center; color: var(--text-muted); background: var(--teal-900); }
     /* Mobile-First Responsive Design */
     
@@ -173,8 +259,8 @@
       .container { width: min(800px, 92%); }
       
       /* Header adjustments for tablets */
-      header .inner { padding: 0.7rem 0; }
-      .logo-mark { height: 80px; min-height: 80px; }
+      header .inner { padding: 0.4rem 0; height: 55px; }
+      .logo-mark { height: 70px; min-height: 70px; }
     }
     
     /* Mobile phones */
@@ -182,7 +268,7 @@
       .container { width: 95%; padding: 0 1rem; }
       
       /* Header mobile optimizations */
-      header .inner { padding: 0.6rem 0; flex-wrap: wrap; gap: 0.5rem; }
+      header .inner { padding: 0.3rem 0; height: 50px; flex-wrap: wrap; gap: 0.5rem; }
       .logo-mark { height: 60px; min-height: 60px; }
       header .btn { padding: 0.6rem 0.8rem; font-size: 0.9rem; }
       
@@ -236,7 +322,8 @@
       .container { width: 98%; padding: 0 0.5rem; }
       
       /* Extra small adjustments */
-      .logo-mark { height: 50px; min-height: 50px; }
+      header .inner { height: 45px; }
+      .logo-mark { height: 55px; min-height: 55px; }
       h1 { font-size: clamp(1.6rem, 7vw, 2.2rem); }
       .section-title { font-size: 1.6rem; }
       .card img { height: 160px; }
@@ -266,7 +353,8 @@
       .container { width: 99%; padding: 0 0.25rem; }
       
       /* Ultra-compact adjustments */
-      .logo-mark { height: 45px; min-height: 45px; }
+      header .inner { height: 40px; }
+      .logo-mark { height: 40px; min-height: 40px; }
       h1 { font-size: clamp(1.4rem, 8vw, 2rem); }
       .section-title { font-size: 1.4rem; }
       
@@ -308,9 +396,9 @@
 <body>
   <header>
     <div class="container inner">
-      <div style="display:flex; align-items:center; gap:2rem;">
+      <div style="display:flex; align-items:center; ">
         <a href="#" class="logo" aria-label="Halse To House — Home">
-          <div class="logo-mark"><img src="H2H Logo.png" alt="H2H Logo" style="width:100%; height:100%; object-fit:contain;" /></div>
+           <div class="logo-mark"><img src="h2hlogo.png" alt="H2H Logo" style="width:80px; height:80px; object-fit:contain;" /></div>
           <div>
             <!-- <div style="font-weight:800;">Halse To House</div> -->
             <!-- <div style="font-size:.9rem; opacity:.9;">Pressure Washing</div> -->
@@ -401,11 +489,74 @@
         <!-- Quote Form -->
         <form id="quote-form" action="#" method="post" onsubmit="event.preventDefault(); submitQuote();">
           <input type="text" name="name" placeholder="Your Name" required>
-          <input type="email" name="email" placeholder="Email Address" required>
-          <input type="text" name="address" placeholder="Property Address" required>
-          <input type="tel" name="phone" placeholder="Phone Number" required>
-          <input type="text" name="area-size" placeholder="Size of area to be cleaned (e.g., driveway 50sqm, patio 30sqm)" required>
-          <textarea class="comment-box" name="message" placeholder="Additional comments or specific requirements" required></textarea>
+          <input type="email" name="email" placeholder="Email Address *" required>
+          <input type="tel" name="phone" placeholder="Phone Number (optional)">
+          <input type="text" name="address" placeholder="Property Address *" required>
+          <div class="services-combobox">
+            <div class="combobox-header" onclick="toggleServicesDropdown()">
+              <span id="services-display">Select services needed</span>
+              <span class="combobox-arrow">▼</span>
+            </div>
+            <div class="combobox-dropdown" id="services-dropdown">
+              <label class="service-option">
+                <input type="checkbox" value="driveway" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Driveway Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="patio" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Patio & Path Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="roof" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Roof Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="gutters" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Gutter Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="fence" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Fence Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="walls" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Wall Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="stairs" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Stairs Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="car-wash" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Car Wash</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="deck" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Deck Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="paving" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Paving Cleaning</span>
+              </label>
+              <label class="service-option">
+                <input type="checkbox" value="concrete" name="services">
+                <span class="checkmark">✓</span>
+                <span class="service-text">Concrete Cleaning</span>
+              </label>
+            </div>
+          </div>
+          <input type="text" name="area-size" placeholder="Size/Quantity (optional - e.g., 50sqm, 2 cars, 20m fence)">
+          <textarea class="comment-box" name="message" placeholder="Additional details, specific requirements, or special instructions" required></textarea>
         </form>
         
         <!-- Quote Action Buttons -->
@@ -417,6 +568,22 @@
       </div>
     </section>
   </main>
+
+  <!-- Quote Success Modal -->
+  <div id="quoteModal" class="quote-modal">
+    <div class="quote-modal-content">
+      <div class="quote-modal-header">
+        <h3>✅ Quote Request Sent!</h3>
+      </div>
+      <div class="quote-modal-body">
+        <p id="modalMessage">Thank you for your quote request! We've sent a confirmation to your email and will contact you within 24 hours.</p>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 1.5rem;">We'll call you to discuss your project and provide a detailed quote.</p>
+      </div>
+      <div class="quote-modal-footer">
+        <button class="quote-modal-close" onclick="closeQuoteModal()">Got it!</button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="container">
@@ -614,17 +781,81 @@
       // Initialize EmailJS
       emailjs.init(EMAILJS_PUBLIC_KEY);
 
+      // Services Combo Box Functions
+      window.toggleServicesDropdown = function() {
+        const dropdown = document.getElementById('services-dropdown');
+        const header = document.querySelector('.combobox-header');
+        
+        dropdown.classList.toggle('show');
+        header.classList.toggle('active');
+      }
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        const combobox = document.querySelector('.services-combobox');
+        if (!combobox.contains(event.target)) {
+          const dropdown = document.getElementById('services-dropdown');
+          const header = document.querySelector('.combobox-header');
+          dropdown.classList.remove('show');
+          header.classList.remove('active');
+        }
+      });
+      
+      // Update display text when services are selected
+      function updateServicesDisplay() {
+        const checkboxes = document.querySelectorAll('.service-option input[type="checkbox"]');
+        const display = document.getElementById('services-display');
+        const selectedServices = [];
+        
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            const serviceText = checkbox.parentElement.querySelector('.service-text').textContent;
+            selectedServices.push(serviceText);
+          }
+        });
+        
+        if (selectedServices.length === 0) {
+          display.textContent = 'Select services needed';
+        } else if (selectedServices.length === 1) {
+          display.textContent = selectedServices[0];
+        } else if (selectedServices.length <= 3) {
+          display.textContent = selectedServices.join(', ');
+        } else {
+          display.textContent = `${selectedServices.length} services selected`;
+        }
+      }
+      
+      // Add event listeners to checkboxes
+      document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('.service-option input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', updateServicesDisplay);
+        });
+      });
+
       // Make submitQuote globally accessible
       window.submitQuote = async function() {
         const form = document.getElementById('quote-form');
         const formData = new FormData(form);
         
+        // Get selected services from checkboxes
+        const selectedServices = Array.from(document.querySelectorAll('.service-option input[type="checkbox"]:checked'))
+          .map(checkbox => checkbox.parentElement.querySelector('.service-text').textContent)
+          .join(', ');
+        
+        // Validate that at least one service is selected
+        if (!selectedServices) {
+          alert('Please select at least one service.');
+          return;
+        }
+        
         const quoteData = {
           name: formData.get('name'),
           email: formData.get('email'),
+          phone: formData.get('phone') || 'Not provided',
           address: formData.get('address'),
-          phone: formData.get('phone'),
-          areaSize: formData.get('area-size'),
+          services: selectedServices,
+          areaSize: formData.get('area-size') || 'Not specified',
           message: formData.get('message'),
           timestamp: new Date().toISOString()
         };
@@ -641,9 +872,9 @@
           // Send emails using EmailJS
           await sendQuoteEmails(quoteData);
           
-          // Success message
-          alert(`Thanks ${quoteData.name}! We've sent a confirmation to ${quoteData.email}. We'll be in touch shortly at ${quoteData.phone} to discuss your ${quoteData.areaSize} cleaning project.`);
-          form.reset();
+          // Show success modal
+          showQuoteModal(quoteData);
+        form.reset();
           
         } catch (error) {
           console.error('Error sending quote:', error);
@@ -658,12 +889,28 @@
       }
       
       window.sendQuoteEmails = async function(quoteData) {
-        // Send email with all quote data
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        // Send business notification email
+        await emailjs.send(EMAILJS_SERVICE_ID, 'h2h_quote_notification', {
           customer_name: quoteData.name,
           customer_email: quoteData.email,
           customer_phone: quoteData.phone,
           customer_address: quoteData.address,
+          services: quoteData.services,
+          service_area: quoteData.areaSize,
+          customer_message: quoteData.message,
+          submission_time: new Date(quoteData.timestamp).toLocaleString(),
+          business_email: 'jrlpaku@gmail.com',
+          business_phone: '0415 288 252',
+          reply_to: quoteData.email
+        });
+        
+        // Send customer confirmation email
+        await emailjs.send(EMAILJS_SERVICE_ID, 'h2h_customer_confirmation', {
+          customer_name: quoteData.name,
+          customer_email: quoteData.email,
+          customer_phone: quoteData.phone,
+          customer_address: quoteData.address,
+          services: quoteData.services,
           service_area: quoteData.areaSize,
           customer_message: quoteData.message,
           submission_time: new Date(quoteData.timestamp).toLocaleString(),
@@ -673,6 +920,41 @@
         });
       }
       
+      // Quote Modal Functions
+      function showQuoteModal(quoteData) {
+        const modal = document.getElementById('quoteModal');
+        const modalMessage = document.getElementById('modalMessage');
+        
+        // Update modal message with customer details
+        const phoneText = quoteData.phone !== 'Not provided' ? ` at ${quoteData.phone}` : '';
+        const areaText = quoteData.areaSize !== 'Not specified' ? ` (${quoteData.areaSize})` : '';
+        modalMessage.innerHTML = `Thanks <strong>${quoteData.name}</strong>! We've sent a confirmation to <strong>${quoteData.email}</strong>${phoneText ? ` and will be in touch${phoneText}` : ' and will contact you via email'} to discuss your <strong>${quoteData.services}${areaText}</strong> cleaning project.`;
+        
+        // Show modal
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeQuoteModal() {
+        const modal = document.getElementById('quoteModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      
+      // Close modal when clicking outside
+      window.onclick = function(event) {
+        const modal = document.getElementById('quoteModal');
+        if (event.target === modal) {
+          closeQuoteModal();
+        }
+      }
+      
+      // Close modal with Escape key
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+          closeQuoteModal();
+        }
+      });
 
       // Mobile menu functionality
       function initMobileMenu() {
